@@ -1,0 +1,86 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  username  String   @unique
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+}
+
+model Product {
+  id               Int               @id @default(autoincrement())
+  name             String
+  categories       Category          @relation(fields: [categoryId], references: [id])
+  categoryId       Int
+  buy_price        Int
+  sell_price       Int
+  stock            Int
+  transactionItems TransactionItem[]
+}
+
+model Category {
+  id          Int       @id @default(autoincrement())
+  categories  String
+  description String?
+  products    Product[]
+}
+
+model Transaction {
+  id      Int               @id @default(autoincrement())
+  invoice String            @unique
+  date    DateTime
+  total   Int
+  items   TransactionItem[]
+}
+
+model TransactionItem {
+  id            Int         @id @default(autoincrement())
+  transaction   Transaction @relation(fields: [transactionId], references: [id])
+  transactionId Int
+  product       Product     @relation(fields: [productId], references: [id])
+  productId     Int
+  quantity      Int
+  price         Int
+}
+
+model ProfitReport {
+  id            Int        @id @default(autoincrement())
+  type          ReportType
+  date          DateTime?
+  startDate     DateTime?
+  endDate       DateTime?
+  total_income  Int
+  total_expense Int
+  total_profit  Int
+  summaries     Summary[]
+}
+
+enum ReportType {
+  DAILY
+  WEEKLY
+  MONTHLY
+}
+
+model Summary {
+  id       Int          @id @default(autoincrement())
+  date     DateTime
+  income   Int
+  expense  Int
+  profit   Int
+  report   ProfitReport @relation(fields: [reportId], references: [id])
+  reportId Int
+}
