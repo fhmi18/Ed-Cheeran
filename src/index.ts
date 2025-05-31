@@ -5,7 +5,7 @@ import productRoutes from './routes/productRoutes';
 import profitRoutes from './routes/profitRoutes';
 import categoryRoutes from './routes/categoryRoutes';
 import recommendRoutes from './routes/recommendRoutes';
-import { errorHandler } from './handler/errorHandler';
+import { errorHandler } from './handler/errorHandler'; 
 
 dotenv.config();
 
@@ -20,7 +20,7 @@ app.use('/v1/Profit', profitRoutes);
 app.use('/v1/categories', categoryRoutes);
 app.use('/v1/Recommend', recommendRoutes);
 
-app.use(require('./handler/errorHandler').errorHandler);
+app.use(errorHandler);
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);

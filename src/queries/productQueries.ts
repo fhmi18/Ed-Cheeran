@@ -1,6 +1,4 @@
-// src/queries/productQueries.ts
 import { PrismaClient } from '@prisma/client';
-import { AppError } from '../handler/errorHandler';
 
 const prisma = new PrismaClient();
 
@@ -37,9 +35,9 @@ export const createProduct = async (name: string, categoryName: string, buy_pric
   });
 };
 
-export const deleteProduct = async (id: number) => {
+export const deleteProduct = async (id: number, name:string) => {
   return prisma.product.delete({
-    where: { id },
+    where: { id, name },
   });
 };
 

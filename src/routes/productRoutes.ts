@@ -14,7 +14,7 @@ const router = Router();
 
 router.get('/All-Products', getAllProducts);
 router.post('/Create-Products', authenticateToken, validateRequestBody(['name', 'categories', 'buy_price', 'sell_price', 'stock']), createProduct);
-router.delete('/Delete-Products', authenticateToken, validateRequestBody(['id']), deleteProduct);
+router.delete('/Delete-Products', authenticateToken, validateRequestBody(['id','name',]), deleteProduct);
 router.put('/Edit-Products', authenticateToken, validateRequestBody(['id', 'name', 'categories', 'buy_price', 'sell_price', 'stock']), editProduct);
 router.get('/Detail-Products', validateQueryParams(['id']), getProductDetail);
 router.get('/Search-Products', validateQueryParams(['query']), searchProducts);

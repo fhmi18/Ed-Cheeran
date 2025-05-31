@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client';
-import { startOfDay, endOfDay, startOfWeek, endOfWeek, startOfMonth, endOfMonth } from 'date-fns';
+// Menggunakan addDays dari date-fns untuk manipulasi tanggal yang lebih aman
+import { startOfDay, endOfDay, startOfWeek, endOfWeek, startOfMonth, endOfMonth, addDays } from 'date-fns';
 
 const prisma = new PrismaClient();
 
@@ -26,23 +27,30 @@ export const getDailyProfitReport = async (dateString: string) => {
 
   let total_income = 0;
   let total_expense = 0;
-  const transactionDetails: any[] = [];
+  type TransactionDetail = {
+    product_name: string;
+    quantity_sold: number;
+    sell_price: number;
+    buy_price: number;
+    profit: number;
+  };
+  const transactionDetails: TransactionDetail[] = [];
 
   transactions.forEach(transaction => {
     transaction.items.forEach(item => {
-      const sellPrice = item.price;
+      const sellPricePerUnit = item.price; 
       const buyPricePerUnit = item.product.buy_price;
-      const profitPerUnit = item.product.sell_price - item.product.buy_price;
 
-      total_income += sellPrice;
+      total_income += sellPricePerUnit * item.quantity;
       total_expense += buyPricePerUnit * item.quantity;
 
+      const profitPerUnit = sellPricePerUnit - buyPricePerUnit; 
       transactionDetails.push({
         product_name: item.product.name,
         quantity_sold: item.quantity,
-        sell_price: item.product.sell_price,
-        buy_price: item.product.buy_price,
-        profit: profitPerUnit * item.quantity,
+        sell_price: item.product.sell_price, 
+        buy_price: item.product.buy_price, 
+        profit: profitPerUnit * item.quantity, 
       });
     });
   });
@@ -59,18 +67,23 @@ export const getDailyProfitReport = async (dateString: string) => {
 };
 
 export const getWeeklyProfitReport = async (startDateString: string, endDateString: string) => {
-  // Using native Date constructor
   const startDate = new Date(startDateString);
   const endDate = new Date(endDateString);
 
-  const dailySummaries: any[] = [];
-  let currentDay = new Date(startDate); 
+  type DailySummary = {
+    date: string;
+    income: number;
+    expense: number;
+    profit: number;
+  };
+  const dailySummaries: DailySummary[] = [];
+  let currentDay = startOfDay(startDate); 
 
   let total_income_week = 0;
   let total_expense_week = 0;
   let total_profit_week = 0;
 
-  while (currentDay <= endDate) {
+  while (currentDay <= endOfDay(endDate)) { // Lo
     const dayReport = await getDailyProfitReport(currentDay.toISOString().split('T')[0]);
     dailySummaries.push({
       date: dayReport.date,
@@ -82,7 +95,7 @@ export const getWeeklyProfitReport = async (startDateString: string, endDateStri
     total_expense_week += dayReport.total_expense;
     total_profit_week += dayReport.total_profit;
 
-    currentDay.setDate(currentDay.getDate() + 1);
+    currentDay = addDays(currentDay, 1); 
   }
 
   return {
@@ -100,15 +113,21 @@ export const getMonthlyProfitReport = async (monthString: string) => {
   const startDate = startOfMonth(new Date(year, month - 1, 1));
   const endDate = endOfMonth(new Date(year, month - 1, 1));
 
-  const weeklySummaries: any[] = [];
-  let currentWeekStart = new Date(startDate); 
+  type WeeklySummary = {
+    week: string;
+    income: number;
+    expense: number;
+    profit: number;
+  };
+  const weeklySummaries: WeeklySummary[] = [];
+  let currentWeekStart = startDate;
   let total_income_month = 0;
   let total_expense_month = 0;
   let total_profit_month = 0;
   let weekCounter = 1;
 
   while (currentWeekStart <= endDate) {
-    const currentWeekEnd = endOfWeek(currentWeekStart, { weekStartsOn: 1 });
+    const currentWeekEnd = endOfWeek(currentWeekStart, { weekStartsOn: 1 }); 
     const actualWeekEnd = currentWeekEnd > endDate ? endDate : currentWeekEnd;
 
     const weeklyReport = await getWeeklyProfitReport(
@@ -127,8 +146,7 @@ export const getMonthlyProfitReport = async (monthString: string) => {
     total_expense_month += weeklyReport.total_expense;
     total_profit_month += weeklyReport.total_profit;
 
-    currentWeekStart = new Date(actualWeekEnd);
-    currentWeekStart.setDate(currentWeekStart.getDate() + 1);
+    currentWeekStart = addDays(actualWeekEnd, 1); 
     weekCounter++;
   }
 

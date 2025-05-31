@@ -6,8 +6,8 @@ import { validateRequestBody, validatePathParams } from '../middleware/validatio
 const router = Router();
 
 router.post('/add-categories', authenticateToken, validateRequestBody(['categories']), addCategory);
-router.delete('/delete-categories', authenticateToken, validateRequestBody(['id', 'categories']), deleteCategory);
+router.delete('/delete-categories', authenticateToken, validateRequestBody(['id','categories']), deleteCategory);
 router.get('/All-categories', getAllCategories);
-router.get('/:id', validatePathParams(['id']), getCategoryById); // Using :id for path parameter
+router.get('/:id', validatePathParams(['id']), getCategoryById); 
 
 export default router;

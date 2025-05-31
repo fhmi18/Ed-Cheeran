@@ -32,29 +32,3 @@ export const findBestSellingProducts = async (limit: number = 10) => {
 
   return productDetails;
 };
-
-export const findCustomerFavoriteProducts = async (customerId: number) => {
-  const customerExists = await prisma.user.findUnique({ 
-    where: { id: customerId },
-  });
-
-  if (!customerExists) {
-    return null;
-  }
-
-  const dummyFavorites = [
-    {
-      product_name: "Indomie Goreng",
-      purchase_count: 8
-    },
-    {
-      product_name: "Air Mineral Botol",
-      purchase_count: 6
-    }
-  ];
-
-  return {
-    customer_id: customerId,
-    favorites: dummyFavorites, 
-  };
-}

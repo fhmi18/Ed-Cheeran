@@ -3,7 +3,7 @@ Standar API Aplikasi Ed Cheeran
 {root.api}/Version/{group}/{endpoint}
 
 Server API:
-http://Pencatatan-Perhitungan-Barang-Ed-Cheeran.com/v1
+http://localhost:3000/v1
 
 Status Code :
 200 -- OK                       --> API Success
@@ -17,12 +17,13 @@ Status Code :
 
 Group   : Authentication
     [1] Register
-        Endpoint : http://Pencatatan-Perhitungan-Barang-Ed-Cheeran.com/v1/Authentication/Register
+        Endpoint : http://localhost:3000/v1/Authentication/Register
             Req :
             {  
                 'nama'      :'fahmi',
+                'email'     : "Fahmoy@gmail.com",
                 'password'  :'password,
-                'confirm'   :'password
+                'confirm'   :'password'
             }
             Res :
             {
@@ -30,36 +31,39 @@ Group   : Authentication
                 'data'      :{
                         'id-Register'   :'001',
                         'nama'          :'fahmi',
-                        'password'      :'password,
-                        'confirm'       :'password
+                        'email'         : "Fahmoy@gmail.com"
                     }
             }
     [2] Login
-        Endpoint : http://Pencatatan-Perhitungan-Barang-Ed-Cheeran.com/v1/Authentication/Login
+        Endpoint : http://localhost:3000/v1/Authentication/Login
         Req :
             {
                 'nama'      :'fahmi',
-                'password'  :'password
+                'email'     : "Fahmoy@gmail.com",
+                'password'  :'password'
             }
             Res :
             {
                 'message'   :'Login berhasil',
                 'data'      :{
-                        'id-Login'  :'001',
+                        'id-Login'  :'xxx',
                         'nama'      :'fahmi',
-                        'password'  :'password
+                        'email'     : "fahmi@gmail.com",
+                        'password'  :'fahmi'
+                        "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NDcsImlhdCI6MTc0ODcwMjI1OSwiZXhwIjoxNzQ4NzAzMTU5fQ.P9NOl1mArAS_Y2-cz7qHo9NugBbSXsYmPXrDt2zwjcE",
+                        "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NDcsImlhdCI6MTc0ODcwMjI1OSwiZXhwIjoxNzQ5MzA3MDU5fQ.bErNNeKlj6GGtBkfypkXGFMUSNeNLTqLTBBYWIWX0cc"
                     }
             }
     [3] Logout
         Headers: Authorization Bearer <access_token>
-        Endpoint : http://Pencatatan-Perhitungan-Barang-Ed-Cheeran.com/v1/Authentication/Logout
+        Endpoint : http://localhost:3000/v1/Authentication/Logout
 
         Req : 
             {
                 'message'   :'berhasil Logout'
             }
     [4] Refresh-Token
-        Endpoint : http://Pencatatan-Perhitungan-Barang-Ed-Cheeran.com/v1/Authentication/Refresh-Token
+        Endpoint : http://localhost:3000/v1/Authentication/Refresh-Token
         Req :
             {
                 'refreshToken' : 'new_access_token'
@@ -72,7 +76,7 @@ Group   : Authentication
 
 Group   : Main-page (Products)
     [1] All Products
-        Endpoint : http://Pencatatan-Perhitungan-Barang-Ed-Cheeran.com/v1/Products/All-Products
+        Endpoint : http://localhost:3000/v1/Products/All-Products
         Req :
  
         Res :
@@ -80,18 +84,20 @@ Group   : Main-page (Products)
             "message": "Berhasil mengambil semua produk",
             "data": [
                 {
-                "id": 1,
-                "name": "Minyak Goreng",
-                "categories": "Sembako",
-                "buy_price": 12000,
-                "sell_price": 15000,
-                "stock": 30
-                },
-                ...
+                    "id": 1,
+                    "name": "Minyak Goreng",
+                    "categoryId": 47,
+                    "buy_price": 12000,
+                    "sell_price": 15000,
+                    "stock": 30,
+                    "categories": {
+                        ...
+                    }
+                }
             ]
         }
     [2] Create Products
-        Endpoint : http://Pencatatan-Perhitungan-Barang-Ed-Cheeran.com/v1/Products/Create-Products
+        Endpoint : http://localhost:3000/v1/Products/Create-Products
         Req :
         {
             "name": "Sabun Lifebuoy",
@@ -109,23 +115,25 @@ Group   : Main-page (Products)
                 "categories": "Kebutuhan Harian",
                 "buy_price": 2500,
                 "sell_price": 3000,
-                "stock": 100
+                "stock": 100,
+                "categories": {
+                        ...
+                }
             }
         }
     [3] Delete Products
-        Endpoint : http://Pencatatan-Perhitungan-Barang-Ed-Cheeran.com/v1/Products/Delete-Products
+        Endpoint : http://localhost:3000/v1/Products/Delete-Products
         Req :
         {
             "id": 7,
-            "name": "Sabun Lifebuoy",
-            "categories": "Kebutuhan Harian"
+            "name": "Sabun Lifebuoy"
         }
         Res :
         {
             "message": "Produk dengan ID 7 berhasil dihapus"
         }
     [4] Edit Products
-        Endpoint : http://Pencatatan-Perhitungan-Barang-Ed-Cheeran.com/v1/Products/Edit-Products
+        Endpoint : http://localhost:3000/v1/Products/Edit-Products
         Req :
         {
             "id": 7,
@@ -141,54 +149,64 @@ Group   : Main-page (Products)
             "data": {
                 "id": 7,
                 "name": "Sabun Lifebuoy 150ml",
-                "categories": "Kebutuhan Harian",
+                "categoryId": 49,
                 "buy_price": 2700,
                 "sell_price": 3500,
-                "stock": 90
+                "stock": 90,
+                "categories":{
+                    ...
+                }
             }
         }
     [5] Detail Products
-        Endpoint : http://Pencatatan-Perhitungan-Barang-Ed-Cheeran.com/v1/Products/Detail-Products
+        Endpoint : http://localhost:3000/v1/Products/Detail-Products
         Req :
-        http://Pencatatan-Perhitungan-Barang-Ed-Cheeran.com/v1/Products/Detail-Products?id=7
+        http://localhost:3000/v1/Products/Detail-Products?id=7
         Res :
         {
             "message": "Detail produk berhasil diambil",
             "data": {
-                "id": 7,
-                "name": "Sabun Lifebuoy 150ml",
-                "categories": "Kebutuhan Harian",
-                "buy_price": 2700,
-                "sell_price": 3500,
-                "stock": 90
+                "id": 48,
+                "name": "Smartphone",
+                "categoryId": 47,
+                "buy_price": 4000000,
+                "sell_price": 5000000,
+                "stock": 20,
+                "categories": {
+                    ...
+                }
             }
         }
 
     [6] Search Products
-        Endpoint : http://Pencatatan-Perhitungan-Barang-Ed-Cheeran.com/v1/Products/Search-Products
+        Endpoint : http://localhost:3000/v1/Products/Search-Products
         Req :
-        http://Pencatatan-Perhitungan-Barang-Ed-Cheeran.com/v1/Products/Search-Products?query=sabun
+        http://localhost:3000/v1/Products/Search-Products?query=laptop
         Res :
         {
             "message": "Hasil pencarian produk",
             "data": [
                 {
-                "id": 7,
-                "name": "Sabun Lifebuoy 150ml",
-                "categories": "Kebutuhan Harian",
-                "buy_price": 2700,
-                "sell_price": 3500,
-                "stock": 90
-                },
-                ...
+                    "id": 47,
+            `       "name": "Laptop",
+                    "categoryId": 47,
+                    "buy_price": 8000000,
+                    "sell_price": 10000000,
+                    "stock": 10,
+                    "categories": {
+                        "id": 47,
+                        "categories": "Elektronik",
+                        "description": "Kategori Elektronik"
+                    }
+                }
             ]
         }
 
 Group   : Profit
     [1] Daily Profit
-        Endpoint : http://Pencatatan-Perhitungan-Barang-Ed-Cheeran.com/v1/Profit/Daily
+        Endpoint : http://localhost:3000/v1/Profit/Daily
         Req : 
-        http://Pencatatan-Perhitungan-Barang-Ed-Cheeran.com/v1/Profit/Daily?date={2025-05-14}
+        http://localhost:3000/v1/Profit/Daily?date={2025-05-14}
         Res :
         {
             "message": "Laporan profit harian berhasil diambil",
@@ -197,65 +215,74 @@ Group   : Profit
             "total_expense": 400000,
             "total_profit": 150000,
             "transactions": [
-                {
-                "product_name": "Minyak Goreng",
-                "quantity_sold": 10,
-                "sell_price": 15000,
-                "buy_price": 12000,
-                "profit": 30000
-                },
                 ...
             ]
         }
 
     [2] Weekly Profit
-        Endpoint : http://Pencatatan-Perhitungan-Barang-Ed-Cheeran.com/v1/Profit/Weekly
+        Endpoint : http://localhost:3000/v1/Profit/Weekly
         Req :
-         http://Pencatatan-Perhitungan-Barang-Ed-Cheeran.com/v1/Profit/Daily??start_date=2025-05-07&end_date=2025-05-13
+         http://localhost:3000/v1/Profit/Daily??start_date=2025-05-07&end_date=2025-05-13
         Res :
         {
             "message": "Laporan profit mingguan berhasil diambil",
-            "start_date": "2025-05-07",
-            "end_date": "2025-05-13",
-            "total_income": 3800000,
-            "total_expense": 3000000,
-            "total_profit": 800000,
-            "daily_summary": [
-                {
-                "date": "2025-05-07",
-                "income": 500000,
-                "expense": 400000,
-                "profit": 100000
-                },
-                ...
-            ]
+            "data": {
+                "start_date": "2025-10-01",
+                "end_date": "2025-10-20",
+                "total_income": 0,
+                "total_expense": 0,
+                "total_profit": 0,
+                "daily_summary": [
+                    {
+                        "date": "2025-09-30",
+                        "income": 0,
+                        "expense": 0,
+                        "profit": 0
+                    },
+                    {
+                        "date": "2025-10-01",
+                        "income": 0,
+                        "expense": 0,
+                        "profit": 0
+                    },
+                   ....
+                ]
+            }
         }
 
     [3] Monthly Profit
-        Endpoint : http://Pencatatan-Perhitungan-Barang-Ed-Cheeran.com/v1/Profit/Monthly
+        Endpoint : http://localhost:3000/v1/Profit/Monthly
         Req :
-        http://Pencatatan-Perhitungan-Barang-Ed-Cheeran.com/v1/Profit/Monthly?month=2025-05
+        http://localhost:3000/v1/Profit/Monthly?month=2023-10
         Res :
         {
             "message": "Laporan profit bulanan berhasil diambil",
-            "month": "2025-05",
-            "total_income": 15500000,
-            "total_expense": 12000000,
-            "total_profit": 3500000,
-            "weekly_summary": [
-                {
-                "week": "Week 1",
-                "income": 3200000,
-                "expense": 2600000,
-                "profit": 600000
-                },
-                ...
-            ]
+            "data": {
+                "month": "2023-10",
+                "total_income": 25000000,
+                "total_expense": 20000000,
+                "total_profit": 5000000,
+                "weekly_summary": [
+                    {
+                        "week": "Week 1",
+                        "income": 0,
+                        "expense": 0,
+                        "profit": 0
+                    },
+                    {
+                        "week": "Week 2",
+                        "income": 25000000,
+                        "expense": 20000000,
+                        "profit": 5000000
+                    },
+                    ...
+                ]
+            }
         }
 
 Group   : categories
     [1] Add categories
-        Endpoint : http://Pencatatan-Perhitungan-Barang-Ed-Cheeran.com/v1/categories/add-categories
+        Endpoint : http://localhost:3000/v1/categories/add-categories
         Req :
         {
             "categories": "Makanan",
@@ -272,7 +299,7 @@ Group   : categories
         }
 
     [2] Delete categories
-        Endpoint : http://Pencatatan-Perhitungan-Barang-Ed-Cheeran.com/v1/categories/delete-categories
+        Endpoint : http://localhost:3000/v1/categories/delete-categories
         Req :
         {
             "id": 1
@@ -285,29 +312,30 @@ Group   : categories
         }
 
     [3] All categories
-        Endpoint : http://Pencatatan-Perhitungan-Barang-Ed-Cheeran.com/v1/categories/All-categories
+        Endpoint : http://localhost:3000/v1/categories/All-categories
         Req :
         Res : 
         {
             "message": "Daftar kategori berhasil diambil",
             "data": [
                 {
-                "id": 1,
-                "categories": "Makanan",
-                "description": "Produk makanan siap konsumsi"
+                    "id": 1,
+                    "categories": "Makanan",
+                    "description": "Produk makanan siap konsumsi"
                 },
                 {
-                "id": 2,
-                "categories": "Minuman",
-                "description": "Produk minuman kemasan"
-                }
+                    "id": 2,
+                    "categories": "Minuman",
+                    "description": "Produk minuman kemasan"
+                },
+                ...
             ]
         }
 
     [4] categories (berdasarkan id)
-        Endpoint : http://Pencatatan-Perhitungan-Barang-Ed-Cheeran.com/v1/categories/:id
+        Endpoint : http://localhost:3000/v1/categories/:id
         Req :
-        http://Pencatatan-Perhitungan-Barang-Ed-Cheeran.com/v1/categories/1
+        http://localhost:3000/v1/categories/1
         Res :
         {
             "message": "Kategori berhasil ditemukan",
@@ -323,7 +351,7 @@ Group   : categories
 
 Group   : Customer
     [1] Add Customer
-        Endpoint : http://Pencatatan-Perhitungan-Barang-Ed-Cheeran.com/v1/Customer/add-Customer
+        Endpoint : http://localhost:3000/v1/Customer/add-Customer
         Req :
         {
             "name": "Fahmi",
@@ -344,9 +372,9 @@ Group   : Customer
             }
         }
     [2] Detail Transaction Customer
-        Endpoint : http://Pencatatan-Perhitungan-Barang-Ed-Cheeran.com/v1/Customer/Detail/:id
+        Endpoint : http://localhost:3000/v1/Customer/Detail/:id
         Req :
-        http://Pencatatan-Perhitungan-Barang-Ed-Cheeran.com/v1/Customer/Detail/1
+        http://localhost:3000/v1/Customer/Detail/1
         Res :
         {
             "message": "Detail transaksi customer ditemukan",
@@ -373,34 +401,10 @@ Group   : Customer
                 ...
             ]
         }
-/* end Opsional */
-
-Group   : Recommend-items
-    [1] best selling items
-        Endpoint : http://Pencatatan-Perhitungan-Barang-Ed-Cheeran.com/v1/Recommend/best-items
+    [3] Customer shopping favorite
+        Endpoint : http://localhost:3000/v1/Recommend/favorite-Customer/:id
         Req :
-        http://Pencatatan-Perhitungan-Barang-Ed-Cheeran.com/v1/Recommend/best-items?limit=5
-        Res :
-        {
-            "message": "Data produk terlaris berhasil diambil",
-            "data": [
-                {
-                "product_id": 10,
-                "product_name": "Beras 5kg",
-                "total_sold": 120
-                },
-                {
-                "product_id": 15,
-                "product_name": "Gula Pasir",
-                "total_sold": 100
-                }
-            ]
-        }
-
-    [2] Customer shopping favorite
-        Endpoint : http://Pencatatan-Perhitungan-Barang-Ed-Cheeran.com/v1/Recommend/favorite-Customer/:id
-        Req :
-        http://Pencatatan-Perhitungan-Barang-Ed-Cheeran.com/v1/Recommend/favorite-Customer/1
+        http://localhost:3000/v1/Recommend/favorite-Customer/1
         Res :
         {
             "message": "Produk favorit customer berhasil diambil",
@@ -414,5 +418,30 @@ Group   : Recommend-items
                 "product_name": "Air Mineral Botol",
                 "purchase_count": 6
                 }
+            ]
+        }
+
+/* end Opsional */
+
+Group   : Recommend-items
+    [1] best selling items
+        Endpoint : http://localhost:3000/v1/Recommend/best-items
+        Req :
+        http://localhost:3000/v1/Recommend/best-items?limit=5
+        Res :
+        {
+            "message": "Data produk terlaris berhasil diambil",
+            "data": [
+                {
+                    "product_id": 10,
+                    "product_name": "Beras 5kg",
+                    "total_sold": 120
+                },
+                {
+                    "product_id": 15,
+                    "product_name": "Gula Pasir",
+                    "total_sold": 100
+                },
+                ...
             ]
         }

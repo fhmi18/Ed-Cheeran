@@ -2,6 +2,12 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
+export const findCategoryByName = async (categoryName: string) => {
+  return prisma.category.findFirst({
+    where: { categories: categoryName },
+  });
+};
+
 export const createCategory = async (categories: string, description?: string) => {
   return prisma.category.create({
     data: {
@@ -11,9 +17,9 @@ export const createCategory = async (categories: string, description?: string) =
   });
 };
 
-export const deleteCategory = async (id: number) => {
+export const deleteCategory = async (id: number, categories:string) => {
   return prisma.category.delete({
-    where: { id },
+    where: { id,categories },
   });
 };
 
