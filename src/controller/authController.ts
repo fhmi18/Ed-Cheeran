@@ -5,6 +5,7 @@ import { sendSuccess } from '../utils/httpResponse';
 import { AuthRequest } from '../types/authTypes';
 import { AppError } from '../handler/errorHandler';
 import { catchAsync } from '../utils/catchAsync'; 
+import prisma from '../utils/prisma';
 import jwt from 'jsonwebtoken';
 
 export const register = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
@@ -24,7 +25,7 @@ export const login = catchAsync(async (req: Request, res: Response, next: NextFu
     return next(new AppError('Invalid credentials', 401));
   }
 
-  const accessToken = generateAccessToken(user.id);
+  const accessToken = generateAccessToken({ id: user.id, role: user.role });
   const refreshToken = generateRefreshToken(user.id);
 
   sendSuccess(res, 200, 'Login berhasil', {
@@ -49,7 +50,12 @@ export const refreshToken = catchAsync(async (req: Request, res: Response, next:
 
   try {
     const decoded = jwt.verify(refreshToken, process.env.REFRESH_KEY as string) as { id: number };
-    const newAccessToken = generateAccessToken(decoded.id);
+    const user = await prisma.user.findUnique({ where: { id: decoded.id } });
+    if (!user) {
+      return next(new AppError('User not found during token refresh', 404));
+    }
+    
+    const newAccessToken = generateAccessToken({ id: user.id, role: user.role });
     const newRefreshToken = generateRefreshToken(decoded.id); 
 
     sendSuccess(res, 200, 'Token refreshed successfully', {

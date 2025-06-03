@@ -347,7 +347,7 @@ Group   : categories
         }
 
 
-/* Opsional */
+/* Opsional (extra page)*/
 
 Group   : Customer
     [1] Add Customer
@@ -444,4 +444,136 @@ Group   : Recommend-items
                 },
                 ...
             ]
+        }
+
+Group   : Transaction-items
+    [1] Create Transaction
+        Endpoint : http://localhost:3000/v1/Transactions/create
+        Req :
+        {
+            "items": [
+                {
+                    "productId": 3,
+                    "quantity": 10
+                }
+            ]
+        }
+        Res :
+        {
+            "message": "Data produk terlaris berhasil diambil",
+            "data": [
+                {
+                    "product_id": 10,
+                    "product_name": "Beras 5kg",
+                    "total_sold": 120
+                },
+                {
+                    "product_id": 15,
+                    "product_name": "Gula Pasir",
+                    "total_sold": 100
+                },
+                ...
+            ]
+        }
+
+        [2] All Transaction
+        Endpoint : http://localhost:3000/v1/Transactions/all
+        Res :
+        {
+            "message": "Successfully retrieved all transactions",
+            "data": [
+                {
+                    "id": 4,
+                    "invoice": "INV-1748925022506-973",
+                    "date": "2025-06-03T04:30:22.506Z",
+                    "total_payment": 30000,
+                    "total_profit_from_transaction": 5000,
+                    "items": [
+                        {
+                            "productId": 3,
+                            "product_name": "Indomie Goreng",
+                            "quantity": 10,
+                            "price_per_unit": 3000,
+                            "item_total_price": 30000,
+                            "item_profit": 5000
+                        }
+                    ]
+                },
+                {
+                    "id": 3,
+                    "invoice": "INV-1748924497179-287",
+                    "date": "2025-06-03T04:21:37.179Z",
+                    "total_payment": 5000000,
+                    "total_profit_from_transaction": 1000000,
+                    "items": [
+                        {
+                            "productId": 2,
+                            "product_name": "Smartphone",
+                            "quantity": 1,
+                            "price_per_unit": 5000000,
+                            "item_total_price": 5000000,
+                            "item_profit": 1000000
+                        }
+                    ]
+                },
+                {
+                    "id": 2,
+                    "invoice": "T002",
+                    "date": "2023-10-02T00:00:00.000Z",
+                    "total_payment": 5000000,
+                    "total_profit_from_transaction": 1000000,
+                    "items": [
+                        {
+                            "productId": 2,
+                            "product_name": "Smartphone",
+                            "quantity": 1,
+                            "price_per_unit": 5000000,
+                            "item_total_price": 5000000,
+                            "item_profit": 1000000
+                        }
+                    ]
+                },
+                {
+                    "id": 1,
+                    "invoice": "T001",
+                    "date": "2023-10-01T00:00:00.000Z",
+                    "total_payment": 20000000,
+                    "total_profit_from_transaction": 4000000,
+                    "items": [
+                        {
+                            "productId": 1,
+                            "product_name": "Laptop",
+                            "quantity": 2,
+                            "price_per_unit": 10000000,
+                            "item_total_price": 20000000,
+                            "item_profit": 4000000
+                        }
+                    ]
+                }
+            ]
+        }
+
+        [3] Transaction Detail
+        Endpoint : http://localhost:3000/v1/Transactions/detail/:id
+        Req : http://localhost:3000/v1/Transactions/detail/2
+        Res :
+        {
+            "message": "Transaction detail retrieved successfully",
+            "data": {
+                "id": 2,
+                "invoice": "T002",
+                "date": "2023-10-02T00:00:00.000Z",
+                "total_payment": 5000000,
+                "total_profit_from_transaction": 1000000,
+                "items": [
+                    {
+                        "productId": 2,
+                        "product_name": "Smartphone",
+                        "quantity": 1,
+                        "price_per_unit": 5000000,
+                        "item_total_price": 5000000,
+                        "item_profit": 1000000
+                    }
+                ]
+            }
         }

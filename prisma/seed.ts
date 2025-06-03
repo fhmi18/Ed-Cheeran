@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, Role } from '@prisma/client';
 import bcrypt from 'bcrypt';
 
 const saltRounds = 4;
@@ -17,11 +17,13 @@ async function main() {
       username: 'admin',
       email: 'admin@gmail.com', 
       password: bcrypt.hashSync('admin', saltRounds),
+      role: Role.ADMIN,
     },
     {
       username: 'fahmi',
       email: 'fahmi@gmail.com', 
       password: bcrypt.hashSync('fahmi', saltRounds),
+      role: Role.KASIR,
     },
   ];
   await prisma.user.createMany({ data: userData }); 

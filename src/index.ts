@@ -4,6 +4,7 @@ import authRoutes from './routes/authRoutes';
 import productRoutes from './routes/productRoutes';
 import profitRoutes from './routes/profitRoutes';
 import categoryRoutes from './routes/categoryRoutes';
+import transactionRoutes from './routes/transactionRoutes';
 import recommendRoutes from './routes/recommendRoutes';
 import { errorHandler } from './handler/errorHandler'; 
 
@@ -19,6 +20,7 @@ app.use('/v1/Products', productRoutes);
 app.use('/v1/Profit', profitRoutes);
 app.use('/v1/categories', categoryRoutes);
 app.use('/v1/Recommend', recommendRoutes);
+app.use('/v1/Transactions', transactionRoutes);
 
 app.use(errorHandler);
 
