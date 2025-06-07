@@ -42,7 +42,7 @@ Group   : Authentication
                 'email'     : "Fahmoy@gmail.com",
                 'password'  :'password'
             }
-            Res :
+        Res :
             {
                 'message'   :'Login berhasil',
                 'data'      :{
@@ -87,7 +87,6 @@ Group   : Main-page (Products)
                     "id": 1,
                     "name": "Minyak Goreng",
                     "categoryId": 47,
-                    "buy_price": 12000,
                     "sell_price": 15000,
                     "stock": 30,
                     "categories": {
@@ -166,7 +165,7 @@ Group   : Main-page (Products)
         {
             "message": "Detail produk berhasil diambil",
             "data": {
-                "id": 48,
+                "id": 7,
                 "name": "Smartphone",
                 "categoryId": 47,
                 "buy_price": 4000000,
@@ -460,20 +459,30 @@ Group   : Transaction-items
         }
         Res :
         {
-            "message": "Data produk terlaris berhasil diambil",
-            "data": [
-                {
-                    "product_id": 10,
-                    "product_name": "Beras 5kg",
-                    "total_sold": 120
-                },
-                {
-                    "product_id": 15,
-                    "product_name": "Gula Pasir",
-                    "total_sold": 100
-                },
-                ...
-            ]
+            "message": "Transaction created successfully",
+            "data": {
+                "id": 5,
+                "invoice": "INV-1749229045131-44",
+                "date": "2025-06-06T16:57:25.131Z",
+                "total": 20000000,
+                "items": [
+                    {
+                        "id": 5,
+                        "transactionId": 5,
+                        "productId": 1,
+                        "quantity": 2,
+                        "price": 10000000,
+                        "product": {
+                            "id": 1,
+                            "name": "Laptop",
+                            "categoryId": 1,
+                            "buy_price": 8000000,
+                            "sell_price": 10000000,
+                            "stock": 8
+                        }
+                    }
+                ]
+            }
         }
 
         [2] All Transaction
@@ -518,7 +527,7 @@ Group   : Transaction-items
                 },
                 {
                     "id": 2,
-                    "invoice": "T002",
+                    "invoice": "INV-1748925021212-313",
                     "date": "2023-10-02T00:00:00.000Z",
                     "total_payment": 5000000,
                     "total_profit_from_transaction": 1000000,
@@ -530,23 +539,6 @@ Group   : Transaction-items
                             "price_per_unit": 5000000,
                             "item_total_price": 5000000,
                             "item_profit": 1000000
-                        }
-                    ]
-                },
-                {
-                    "id": 1,
-                    "invoice": "T001",
-                    "date": "2023-10-01T00:00:00.000Z",
-                    "total_payment": 20000000,
-                    "total_profit_from_transaction": 4000000,
-                    "items": [
-                        {
-                            "productId": 1,
-                            "product_name": "Laptop",
-                            "quantity": 2,
-                            "price_per_unit": 10000000,
-                            "item_total_price": 20000000,
-                            "item_profit": 4000000
                         }
                     ]
                 }
@@ -561,7 +553,7 @@ Group   : Transaction-items
             "message": "Transaction detail retrieved successfully",
             "data": {
                 "id": 2,
-                "invoice": "T002",
+                "invoice": "INV-1748924497179-287",
                 "date": "2023-10-02T00:00:00.000Z",
                 "total_payment": 5000000,
                 "total_profit_from_transaction": 1000000,

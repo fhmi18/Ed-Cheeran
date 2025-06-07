@@ -4,8 +4,16 @@ const prisma = new PrismaClient();
 
 export const findAllProducts = async () => {
   return prisma.product.findMany({
-    include: {
-      categories: true,
+     select: { 
+      id: true,
+      name: true,
+      sell_price: true,
+      stock: true,
+      categories: {
+        select: {
+          categories: true,
+        },
+      },
     },
   });
 };

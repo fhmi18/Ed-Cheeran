@@ -6,6 +6,7 @@ import { catchAsync } from '../utils/catchAsync';
 
 export const addCategory = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
   const { categories, description } = req.body;
+  console.log(req.body);
   const existingCategory = await categoryQueries.findCategoryByName(categories);
   if (existingCategory) {
     return next(new AppError('Kategori dengan nama tersebut sudah ada', 400));

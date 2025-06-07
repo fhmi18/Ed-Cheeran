@@ -5,12 +5,13 @@ import { validateRequestBody, validatePathParams } from '../middleware/validatio
 import { z } from 'zod';
 
 const addCategorySchema = z.object({
-  categories: z.array(z.string())
+  categories: z.string(),
+  description: z.string(),
 });
 
 const deleteCategorySchema = z.object({
-  id: z.string(),
-  categories: z.array(z.string())
+  id: z.number().int().positive('Category ID is required'),
+  categories: z.string().min(1, 'Category name is required'),
 });
 
 const router = Router();

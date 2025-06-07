@@ -1,8 +1,8 @@
 import { z } from 'zod';
 
 export const addCategorySchema = z.object({
-  categories: z.string().min(1, 'Category name is required'),
-  description: z.string().optional(),
+  categories: z.string(),
+  description: z.string(),
 });
 
 export const deleteCategorySchema = z.object({
